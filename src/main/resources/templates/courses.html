@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Courses</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<body>
+	<table id="courses-table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+				<th>Hours</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="course : ${courses}">
+				<td><span th:text="${course.name}"></span></td>
+				<td><span th:text="${course.description}"></span></td>
+				<td><span th:text="${course.price}"></span></td>
+				<td><span th:text="${course.hours}"></span></td>
+				<td><button class="updateCourse">Update</button></td>
+				<td>
+					<form action="#" th:action="@{/courses/deletecourse}" method="post">
+						<input type="hidden" th:value="${course.id}" name="id" />
+						<p>
+							<input type="submit" value="Delete" />
+						</p>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<form id="formCourse" action="#" th:action="@{/courses/addcourse}"
+		th:object="${course}" method="post">
+		<input type="hidden" th:field="*{id}" />
+		<p>
+			Name: <input type="text" th:field="*{name}" />
+		</p>
+		<p>
+			Description: <input type="text" th:field="*{description}" />
+		</p>
+		<p>
+			Price: <input type="number" th:field="*{price}" />
+		</p>
+		<p>
+			Hours: <input type="number" th:field="*{hours}" />
+		</p>
+		<p>
+			<button type="submit">Submit</button>
+			<button>Cancel</button>
+		</p>
+	</form>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var formCourse = $('#formCourse');
+			
+			$("#courses-table").on("click", ".updateCourse", function() {
+
+				var currentRow = $(this).closest("tr");
+				
+				var name = currentRow.find("td:eq(0)").text();
+				var description = currentRow.find("td:eq(1)").text();
+				var price = currentRow.find("td:eq(2)").text();
+				var hours = currentRow.find("td:eq(3)").text();
+				var id = currentRow.find("td:eq(5)").children('form').children('input').val();
+
+				formCourse.find("input:eq(0)").val(id);
+				formCourse.find("input:eq(1)").val(name);
+				formCourse.find("input:eq(2)").val(description);
+				formCourse.find("input:eq(3)").val(price);
+				formCourse.find("input:eq(4)").val(hours);
+				formCourse.attr("action", "/courses/updatecourse")
+			});
+			
+			
+			$("#formCourse").on('click', '.btnCancel', function(){
+				formCourse.find("input:eq(0)").val("");
+				formCourse.find("input:eq(1)").val("");
+				formCourse.find("input:eq(2)").val("");
+				formCourse.find("input:eq(3)").val("");
+				formCourse.find("input:eq(4)").val("");
+				formCourse.attr("action", "/courses/addcourse")
+			})
+				
+		});
+		
+	</script>
+</body>
+</html>
