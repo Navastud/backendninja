@@ -6,7 +6,7 @@ import com.navastud.backendninja.entity.Course;
 
 public interface CourseService {
 
-	public abstract List<Course> listAllCourse();
+	public abstract List<Course> listAllCourses();
 
 	public abstract Course addCourse(Course course);
 
