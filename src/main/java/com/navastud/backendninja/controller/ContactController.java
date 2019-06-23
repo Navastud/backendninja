@@ -20,21 +20,39 @@ import com.navastud.backendninja.constant.ViewConstant;
 import com.navastud.backendninja.model.ContactModel;
 import com.navastud.backendninja.service.ContactService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ContactController.
+ */
 @Controller
 @RequestMapping("/contacts")
 public class ContactController {
 
+	/** The Constant LOG. */
 	private static final Log LOG = LogFactory.getLog(ContactController.class);
 
+	/** The contact service. */
 	@Autowired
 	@Qualifier("contactServiceImpl")
 	private ContactService contactService;
 
+	/**
+	 * Cancel.
+	 *
+	 * @return the string
+	 */
 	@GetMapping("/cancel")
 	public String cancel() {
 		return "redirect:/contacts/showcontacts";
 	}
 
+	/**
+	 * Redirect contactform.
+	 *
+	 * @param id the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 	@GetMapping("/contactform")
 	public String redirectContactform(@RequestParam(name = "id", required = false) int id, Model model) {
@@ -47,6 +65,13 @@ public class ContactController {
 		return ViewConstant.CONTACT_FORM;
 	}
 
+	/**
+	 * Adds the contact.
+	 *
+	 * @param contactModel the contact model
+	 * @param model the model
+	 * @return the string
+	 */
 	@PostMapping("/addcontact")
 	public String addContact(@ModelAttribute(name = "contactModel") ContactModel contactModel, Model model) {
 		LOG.info("METHOD: addContact() -- PARAMS: " + contactModel.toString());
@@ -58,6 +83,11 @@ public class ContactController {
 		return "redirect:/contacts/showcontacts";
 	}
 
+	/**
+	 * Show contacts.
+	 *
+	 * @return the model and view
+	 */
 	@GetMapping("/showcontacts")
 	public ModelAndView showContacts() {
 		LOG.info("METHOD: showContacts()");
@@ -69,6 +99,12 @@ public class ContactController {
 		return mav;
 	}
 
+	/**
+	 * Removes the contact.
+	 *
+	 * @param id the id
+	 * @return the model and view
+	 */
 	@GetMapping("/removecontact")
 	public ModelAndView removeContact(@RequestParam(name = "id", required = true) int id) {
 		LOG.info("METHOD: removeContact() -- PARAMS: id=" + id);

@@ -8,13 +8,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.navastud.backendninja.component.RequestTimeInterceptor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WebMvcConfiguration.
+ */
 @Configuration
 public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 
+	/** The request time interceptor. */
 	@Autowired
 	@Qualifier("requestTimeInterceptor")
 	private RequestTimeInterceptor requestTimeInterceptor;
 
+	/**
+	 * Adds the interceptors.
+	 *
+	 * @param registry the registry
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 

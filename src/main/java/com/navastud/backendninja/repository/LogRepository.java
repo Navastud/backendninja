@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.navastud.backendninja.entity.Log;
 
+/**
+ * The Interface LogRepository.
+ */
 @Repository("logRepository")
 public interface LogRepository extends JpaRepository<Log, Serializable> {
 

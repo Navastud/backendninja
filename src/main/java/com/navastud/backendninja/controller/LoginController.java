@@ -9,11 +9,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.navastud.backendninja.constant.ViewConstant;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginController.
+ */
 @Controller
 public class LoginController {
 
+	/** The Constant LOG. */
 	private static final Log LOG = LogFactory.getLog(LoginController.class);
 
+	/**
+	 * Show login form.
+	 *
+	 * @param model the model
+	 * @param error the error
+	 * @param logout the logout
+	 * @return the string
+	 */
 	@GetMapping("/login")
 	public String showLoginForm(Model model, @RequestParam(name = "error", required = false) String error,
 			@RequestParam(name = "logout", required = false) String logout) {
@@ -26,6 +39,11 @@ public class LoginController {
 		return ViewConstant.LOGIN;
 	}
 
+	/**
+	 * Login check.
+	 *
+	 * @return the string
+	 */
 	@GetMapping({ "/loginsuccess", "/" })
 	public String loginCheck() {
 		LOG.info("METHOD: loginCheck()");
