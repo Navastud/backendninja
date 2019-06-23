@@ -11,4 +11,5 @@ import com.navastud.backendninja.entity.Contact;
 public interface ContactRepository extends JpaRepository<Contact, Serializable> {
 
 	public abstract Contact findById(int id);
+
 }
