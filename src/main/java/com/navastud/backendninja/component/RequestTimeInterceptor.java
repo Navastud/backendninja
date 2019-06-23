@@ -1,15 +1,27 @@
 package com.navastud.backendninja.component;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.navastud.backendninja.repository.LogRepository;
+
 @Component("requestTimeInterceptor")
 public class RequestTimeInterceptor extends HandlerInterceptorAdapter {
+
+	@Autowired
+	@Qualifier("logRepository")
+	private LogRepository logRepository;
 
 	private static final Log LOG = LogFactory.getLog(RequestTimeInterceptor.class);
 
@@ -29,8 +41,17 @@ public class RequestTimeInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		long startTime = (long) request.getAttribute("startTime");
-		LOG.info("URL to: '" + request.getRequestURI().toString() + "' in: '" + (System.currentTimeMillis() - startTime)
-				+ "ms'");
+		String url = request.getRequestURL().toString();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = "";
+		if (null != auth && auth.isAuthenticated()) {
+			username = auth.getName();
+		}
+
+		logRepository.save(
+				new com.navastud.backendninja.entity.Log(new Date(), auth.getDetails().toString(), username, url));
+
+		LOG.info("URL to: '" + url + "' in: '" + (System.currentTimeMillis() - startTime) + "ms'");
 
 	}
 
