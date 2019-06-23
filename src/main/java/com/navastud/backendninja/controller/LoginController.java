@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.navastud.backendninja.constant.ViewConstant;
 import com.navastud.backendninja.model.UserCredential;
 
 @Controller
@@ -34,22 +34,19 @@ public class LoginController {
 		model.addAttribute("logout", logout);
 
 		LOG.info("Returning to login view");
-		return "login";
+		return ViewConstant.LOGIN;
 	}
 
 	@PostMapping("/logincheck")
-	public ModelAndView loginCheck(@ModelAttribute(name = "userCredentials") UserCredential userCredential) {
+	public String loginCheck(@ModelAttribute(name = "userCredentials") UserCredential userCredential) {
 
 		LOG.info("METHOD: loginCheck() -- PARAMS: " + userCredential.toString());
-		ModelAndView mav = new ModelAndView();
 		if (userCredential.getUsername().equals("user") && userCredential.getPassword().equals("user")) {
 			LOG.info("Returning to contacts view");
-			mav.setViewName("contacts");
-			return mav;
+			return ViewConstant.CONTACTS;
 		}
 
 		LOG.info("Redirect to login?error view");
-		mav.setViewName("redirect:/login?error");
-		return mav;
+		return "redirect:/login?error";
 	}
 }
