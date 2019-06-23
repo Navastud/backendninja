@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,10 +15,6 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue
-	@Column(name = "id")
-	private int id;
-
 	@Column(name = "username", nullable = false, length = 45)
 	private String username;
 
@@ -29,7 +24,7 @@ public class User {
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>();
 
 	public User() {
@@ -48,14 +43,6 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
